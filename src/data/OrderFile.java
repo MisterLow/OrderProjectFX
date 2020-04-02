@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -21,6 +22,13 @@ public class OrderFile {
         BufferedReader br = new BufferedReader(fr);
         String line = br.readLine();
         while (line != null) {
+            StringTokenizer st = new StringTokenizer(line, ",");
+            int orderNum = Integer.parseInt(st.nextToken().substring(1));
+            int customerNum = Integer.parseInt(st.nextToken().substring(1));
+            Order order = new Order(orderNum);
+            order.setCustomerID(customerNum);
+            order.setProduct(st.nextToken());
+            order.setShipping(st.nextToken());
             line = br.readLine();
         }
         br.close();
@@ -32,7 +40,7 @@ public class OrderFile {
         FileWriter fw = new FileWriter("./Order.dat");
         BufferedWriter bw = new BufferedWriter(fw);
         for (Order order : orders) {
-            bw.write(order.getOrderID() + ", " + order.getCustomerID() + ", " + order.getShipping());
+            bw.write("O" + order.getOrderID() + ", " + "C" + order.getCustomerID() + ", " + order.getShipping());
             bw.newLine();
         }
         bw.close();
