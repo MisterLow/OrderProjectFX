@@ -40,9 +40,11 @@ public class OrderFile {
         FileWriter fw = new FileWriter("./Order.dat", false);
         BufferedWriter bw = new BufferedWriter(fw);
         for (Order order : orders) {
-            bw.write("O" + order.getOrderID() + ", C" + order.getCustomerID() + ", " + order.getShipping());
+            bw.write("O" + order.getOrderID() + ", C" + order.getCustomerID()
+                    + ", " + order.getProduct() + ", " + order.getShipping());
             bw.newLine();
         }
+        bw.flush();
         bw.close();
         fw.close();
     }
