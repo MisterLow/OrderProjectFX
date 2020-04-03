@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.Iterator;
 
 /**
  *
@@ -39,10 +40,15 @@ public class OrderFile {
     public static void saveOrders(ArrayList<Order> orders) throws IOException {
         FileWriter fw = new FileWriter("./Order.dat", false);
         BufferedWriter bw = new BufferedWriter(fw);
-        for (Order order : orders) {
+        Iterator<Order> itOrder = orders.iterator();
+        while (itOrder.hasNext()) {
+            Order order = itOrder.next();
             bw.write("O" + order.getOrderID() + ", C" + order.getCustomerID()
-                    + ", " + order.getProduct() + ", " + order.getShipping());
-            bw.newLine();
+                    + ", " + order.getProduct() + ", " + order.getShipping()
+            );
+            if (itOrder.hasNext()) {
+                bw.newLine();
+            }
         }
         bw.flush();
         bw.close();
