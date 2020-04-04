@@ -11,6 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import panes.*;
+import stages.SearchResultStage;
 
 /**
  *
@@ -37,14 +38,16 @@ public class OrderProjectFXMain extends Application {
             System.err.println(ex);
         }
         paneSetup();
-        Alert dlgError = new Alert(Alert.AlertType.ERROR);
-        dlgError.setContentText("Numbers only");
+        Alert dlgInputMismatch = new Alert(Alert.AlertType.ERROR);
+        dlgInputMismatch.setContentText("Numbers only");
+
+        Alert dlgEmpty = new Alert(Alert.AlertType.ERROR);
+        dlgEmpty.setContentText("Search cannot be blank");
 
         // Navigation
         left.getBtnFirst().setOnAction((e) -> {
             currentOrder = 0;
             updateViews();
-
         });
         left.getBtnPrev().setOnAction((e) -> {
             currentOrder--;
@@ -63,27 +66,49 @@ public class OrderProjectFXMain extends Application {
 
         // Search
         search.getTxtCustomer().setOnKeyPressed(e -> {
-            if (!isNumeric(e.getCode())) {
-                dlgError.show();
+            if (e.getCode().toString().equals("ENTER") && !(search.getTxtCustomer().getText().isEmpty())) {
+                SearchResultStage pane = new SearchResultStage(orders, Integer.parseInt(search.getTxtCustomer().getText()));
+                pane.show();
+            } else if (e.getCode().toString().equals("ENTER")) {
+                dlgEmpty.show();
+            } else if (!isNumeric(e.getCode())) {
+                dlgInputMismatch.show();
             }
         });
-        search.getBtnCustomer().setOnAction((e) -> {
+        search.getTxtProduct().setOnKeyPressed(e -> {
+            if (e.getCode().toString().equals("ENTER") && !(search.getTxtProduct().getText().isEmpty())) {
+                SearchResultStage pane = new SearchResultStage(orders, search.getTxtProduct().getText());
+                pane.show();
+            } else if (e.getCode().toString().equals("ENTER")) {
+                dlgEmpty.show();
+            }
         });
-        search.getBtnProduct().setOnAction((e) -> {
+        search.getBtnView().setOnAction((e) -> {
+            SearchResultStage resultStage = new SearchResultStage(orders);
+            resultStage.show();
+        });
+        search.getBtnSearch().setOnAction((e) -> {
+            if (!search.getTxtCustomer().getText().isEmpty()) {
+                SearchResultStage pane = new SearchResultStage(orders, Integer.parseInt(search.getTxtCustomer().getText()));
+                pane.show();
+            } else if (!search.getTxtProduct().getText().isEmpty()) {
+                SearchResultStage pane = new SearchResultStage(orders, search.getTxtProduct().getText());
+                pane.show();
+            }
         });
 
         // Main
         order.getTxtCustomer().setOnKeyPressed(e -> {
             if ((!isNumeric(e.getCode()) & order.getTxtCustomer().isEditable())) {
-                dlgError.show();
+                dlgInputMismatch.show();
             }
         });
         order.getTxtOrder().setOnKeyPressed(e -> {
             if ((!isNumeric(e.getCode()) & order.getTxtOrder().isEditable())) {
-                dlgError.show();
+                dlgInputMismatch.show();
             }
         });
-        
+
         // Menu Items
         menu.getBtnUpdate().setOnAction((e) -> {
             orders.get(currentOrder).setProduct(order.getTxtProduct().getText());
@@ -141,7 +166,9 @@ public class OrderProjectFXMain extends Application {
     }
 
     private boolean isNumeric(KeyCode code) {
-        return code.toString().startsWith("DIGIT");
+        return (code.toString().startsWith("DIGIT"))
+                || (code.toString().startsWith("NUMPAD"))
+                || (code.toString().equals("BACK_SPACE"));
     }
 
     /**

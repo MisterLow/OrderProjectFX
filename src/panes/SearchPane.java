@@ -14,18 +14,18 @@ public class SearchPane extends GridPane {
 
     private Label lblCustomer = new Label("Customer Search: ");
     private TextField txtCustomer = new TextField();
-    private final Button btnCustomer = new Button("Search");
     private Label lblProduct = new Label("Product Search: ");
     private TextField txtProduct = new TextField();
-    private final Button btnProduct = new Button("Search");
+    private final Button btnSearch = new Button("Search");
+    private final Button btnView = new Button("View All");
 
     public SearchPane() {
         add(lblCustomer, 0, 0);
         add(txtCustomer, 1, 0);
-        add(btnCustomer, 2, 0);
+        add(btnSearch, 2, 0, 1, 2);
         add(lblProduct, 0, 1);
         add(txtProduct, 1, 1);
-        add(btnProduct, 2, 1);
+        add(btnView, 3, 0, 1, 2);
         setAlignment(Pos.CENTER);
     }
 
@@ -37,13 +37,6 @@ public class SearchPane extends GridPane {
     }
 
     /**
-     * @return the btnCustomer
-     */
-    public Button getBtnCustomer() {
-        return btnCustomer;
-    }
-
-    /**
      * @return the txtProduct
      */
     public TextField getTxtProduct() {
@@ -51,9 +44,17 @@ public class SearchPane extends GridPane {
     }
 
     /**
-     * @return the btnProduct
+     * @return the btnSearch
      */
-    public Button getBtnProduct() {
-        return btnProduct;
+    public Button getBtnSearch() {
+        return btnSearch;
     }
+
+    /**
+     * @return the btnView
+     */
+    public Button getBtnView() {
+        return btnView;
+    }
+
 }
