@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package data;
 
 import content.Order;
@@ -37,6 +32,7 @@ public class OrderFileTest {
 
     /**
      * Test of loadOrders method, of class OrderFile.
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -48,8 +44,8 @@ public class OrderFileTest {
         boolean result = false;
         ArrayList<Order> tempOrder = OrderFile.loadOrders();
         for (int i = 0; i < orders.size(); i++) {
-                System.out.println(orders.get(i).getCustomerID());
-                System.out.println(tempOrder.get(i).getCustomerID());
+            System.out.println(orders.get(i).getCustomerID());
+            System.out.println(tempOrder.get(i).getCustomerID());
             if (tempOrder.get(i).getCustomerID() == orders.get(i).getCustomerID()) {
                 result = true;
             } else {
@@ -61,6 +57,7 @@ public class OrderFileTest {
 
     /**
      * Test of saveOrders method, of class OrderFile.
+     *
      * @throws java.lang.Exception
      */
     @Test

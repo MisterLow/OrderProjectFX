@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package panes;
 
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 /**
@@ -12,5 +8,10 @@ import javafx.scene.layout.GridPane;
  * @author Alexander
  */
 public class SearchPane extends GridPane {
-    
+
+    private TextField txtSearch = new TextField();
+
+    public SearchPane() {
+        add(txtSearch, 0, 0);
+    }
 }
