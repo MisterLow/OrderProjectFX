@@ -4,12 +4,13 @@ import content.Order;
 import data.OrderFile;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import panes.LeftPane;
-import panes.RightPane;
+import panes.*;
 
 /**
  *
@@ -20,12 +21,16 @@ public class OrderProjectFXMain extends Application {
     private ArrayList<Order> orders;
     private int currentOrder = 0;
 
+    private SearchPane search;
     private LeftPane left;
     private RightPane right;
+    private MenuPane menu;
+    private OrderPane order;
     private BorderPane pane;
 
     @Override
     public void start(Stage primaryStage) {
+        // Setup
         try {
             orders = OrderFile.loadOrders();
         } catch (IOException ex) {
@@ -33,6 +38,7 @@ public class OrderProjectFXMain extends Application {
         }
         paneSetup();
 
+        // Navigation
         left.getBtnFirst().setOnAction((e) -> {
             currentOrder = 0;
             updateViews();
@@ -52,11 +58,33 @@ public class OrderProjectFXMain extends Application {
             currentOrder++;
             updateViews();
         });
-        Scene scene = new Scene(pane, 400, 400);
+
+        menu.getBtnDelete().setOnAction((e) -> {
+            orders.remove(currentOrder);
+            updateViews();
+        });
+        menu.getBtnSave().setOnAction((e) -> {
+            try {
+                OrderFile.saveOrders(orders);
+            } catch (IOException ex) {
+                System.err.println("Save error");
+            }
+        });
+
+        Scene scene = new Scene(pane, 400, 300);
 
         primaryStage.setTitle("View Orders");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    @Override
+    public void stop() {
+        try {
+            OrderFile.saveOrders(orders);
+        } catch (IOException ex) {
+            System.err.println("Save error");
+        }
     }
 
     /**
@@ -67,16 +95,23 @@ public class OrderProjectFXMain extends Application {
     }
 
     private void paneSetup() {
+        menu = new MenuPane();
         left = new LeftPane(orders, currentOrder);
+        order = new OrderPane(orders, currentOrder);
         right = new RightPane(orders, currentOrder);
         pane = new BorderPane();
+        search = new SearchPane();
+        pane.setTop(search);
         pane.setLeft(left);
+        pane.setCenter(order);
         pane.setRight(right);
+        pane.setBottom(menu);
         updateViews();
     }
 
     private void updateViews() {
         left.update(currentOrder);
+        order.update(currentOrder);
         right.update(currentOrder);
     }
 }
