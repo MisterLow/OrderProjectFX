@@ -19,17 +19,18 @@ public class OrderFile {
 
     public static ArrayList<Order> loadOrders() throws FileNotFoundException, IOException {
         ArrayList<Order> orders = new ArrayList<>();
-        FileReader fr = new FileReader("./Order.dat");
+        FileReader fr = new FileReader("Order.dat");
         BufferedReader br = new BufferedReader(fr);
         String line = br.readLine();
         while (line != null) {
             StringTokenizer st = new StringTokenizer(line, ",");
-            int orderNum = Integer.parseInt(st.nextToken().substring(1));
-            int customerNum = Integer.parseInt(st.nextToken().substring(1));
+            int orderNum = Integer.parseInt(st.nextToken().trim().substring(1));
+            int customerNum = Integer.parseInt(st.nextToken().trim().substring(1));
             Order order = new Order(orderNum);
             order.setCustomerID(customerNum);
-            order.setProduct(st.nextToken());
-            order.setShipping(st.nextToken());
+            order.setProduct(st.nextToken().trim());
+            order.setShipping(st.nextToken().trim());
+            orders.add(order);
             line = br.readLine();
         }
         br.close();
@@ -38,7 +39,7 @@ public class OrderFile {
     }
 
     public static void saveOrders(ArrayList<Order> orders) throws IOException {
-        FileWriter fw = new FileWriter("./Order.dat", false);
+        FileWriter fw = new FileWriter("Order.dat", false);
         BufferedWriter bw = new BufferedWriter(fw);
         Iterator<Order> itOrder = orders.iterator();
         while (itOrder.hasNext()) {

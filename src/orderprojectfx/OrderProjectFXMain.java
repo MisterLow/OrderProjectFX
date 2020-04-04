@@ -4,10 +4,12 @@ import content.Order;
 import data.OrderFile;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import panes.LeftPane;
+import panes.RightPane;
 
 /**
  *
@@ -15,16 +17,45 @@ import javafx.stage.Stage;
  */
 public class OrderProjectFXMain extends Application {
 
+    private ArrayList<Order> orders;
+    private int currentOrder = 0;
+
+    private LeftPane left;
+    private RightPane right;
+    private BorderPane pane;
+
     @Override
     public void start(Stage primaryStage) {
         try {
-            ArrayList<Order> orders = OrderFile.loadOrders();
+            orders = OrderFile.loadOrders();
         } catch (IOException ex) {
-            Logger.getLogger(OrderProjectFXMain.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
         }
+        paneSetup();
 
-        primaryStage.setTitle("Hello World!");
+        left.getBtnFirst().setOnAction((e) -> {
+            currentOrder = 0;
+            updateViews();
 
+        });
+        left.getBtnPrev().setOnAction((e) -> {
+            currentOrder--;
+            updateViews();
+
+        });
+        right.getBtnLast().setOnAction((e) -> {
+            currentOrder = orders.size() - 1;
+            updateViews();
+
+        });
+        right.getBtnNext().setOnAction((e) -> {
+            currentOrder++;
+            updateViews();
+        });
+        Scene scene = new Scene(pane, 400, 400);
+
+        primaryStage.setTitle("View Orders");
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
@@ -35,4 +66,17 @@ public class OrderProjectFXMain extends Application {
         launch(args);
     }
 
+    private void paneSetup() {
+        left = new LeftPane(orders, currentOrder);
+        right = new RightPane(orders, currentOrder);
+        pane = new BorderPane();
+        pane.setLeft(left);
+        pane.setRight(right);
+        updateViews();
+    }
+
+    private void updateViews() {
+        left.update(currentOrder);
+        right.update(currentOrder);
+    }
 }

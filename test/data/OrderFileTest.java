@@ -16,7 +16,9 @@ import static org.junit.Assert.*;
  * @author Alexander
  */
 public class OrderFileTest {
+
     private ArrayList<Order> orders;
+
     public OrderFileTest() {
     }
 
@@ -35,29 +37,36 @@ public class OrderFileTest {
 
     /**
      * Test of loadOrders method, of class OrderFile.
+     * @throws java.lang.Exception
      */
     @Test
     public void testLoadOrders() throws Exception {
         System.out.println("loadOrders");
-        ArrayList<Order> expResult = null;
-        ArrayList<Order> result = OrderFile.loadOrders();
-        assertEquals(expResult, result);
-        for (Order order : result) {
-            System.out.println(order.getCustomerID());
+        setUp();
+        OrderFile.saveOrders(orders);
+        boolean expResult = true;
+        boolean result = false;
+        ArrayList<Order> tempOrder = OrderFile.loadOrders();
+        for (int i = 0; i < orders.size(); i++) {
+                System.out.println(orders.get(i).getCustomerID());
+                System.out.println(tempOrder.get(i).getCustomerID());
+            if (tempOrder.get(i).getCustomerID() == orders.get(i).getCustomerID()) {
+                result = true;
+            } else {
+                result = false;
+            }
         }
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result);
     }
 
     /**
      * Test of saveOrders method, of class OrderFile.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSaveOrders() throws Exception {
         System.out.println("saveOrders");
         setUp();
         OrderFile.saveOrders(orders);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
-
 }
