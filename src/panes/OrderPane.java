@@ -42,9 +42,37 @@ public class OrderPane extends GridPane {
 
     public void update(int currentOrder) {
         this.currentOrder = currentOrder;
-        txtOrder.setText(Integer.toString(orders.get(currentOrder).getOrderID()));
-        txtCustomer.setText(Integer.toString(orders.get(currentOrder).getCustomerID()));
-        txtProduct.setText(orders.get(currentOrder).getProduct());
-        txtShipping.setText(orders.get(currentOrder).getShipping());
+        getTxtOrder().setText(Integer.toString(orders.get(currentOrder).getOrderID()));
+        getTxtCustomer().setText(Integer.toString(orders.get(currentOrder).getCustomerID()));
+        getTxtProduct().setText(orders.get(currentOrder).getProduct());
+        getTxtShipping().setText(orders.get(currentOrder).getShipping());
+    }
+
+    /**
+     * @return the txtOrder
+     */
+    public TextField getTxtOrder() {
+        return txtOrder;
+    }
+
+    /**
+     * @return the txtCustomer
+     */
+    public TextField getTxtCustomer() {
+        return txtCustomer;
+    }
+
+    /**
+     * @return the txtProduct
+     */
+    public TextField getTxtProduct() {
+        return txtProduct;
+    }
+
+    /**
+     * @return the txtShipping
+     */
+    public TextField getTxtShipping() {
+        return txtShipping;
     }
 }

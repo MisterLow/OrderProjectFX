@@ -4,8 +4,6 @@ import content.Order;
 import data.OrderFile;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -59,6 +57,20 @@ public class OrderProjectFXMain extends Application {
             updateViews();
         });
 
+        // Prevent the user from altering the cusomer and order IDs
+        order.getTxtOrder().setOnKeyReleased(e -> {
+            order.getTxtOrder().setText(Integer.toString(orders.get(currentOrder).getOrderID()));
+        });
+        order.getTxtCustomer().setOnKeyReleased(e -> {
+            order.getTxtCustomer().setText(Integer.toString(orders.get(currentOrder).getCustomerID()));
+        });
+
+        // Menu Items
+        menu.getBtnUpdate().setOnAction((e) -> {
+            orders.get(currentOrder).setProduct(order.getTxtProduct().getText());
+            orders.get(currentOrder).setShipping(order.getTxtShipping().getText());
+            updateViews();
+        });
         menu.getBtnDelete().setOnAction((e) -> {
             orders.remove(currentOrder);
             updateViews();
@@ -73,7 +85,7 @@ public class OrderProjectFXMain extends Application {
 
         Scene scene = new Scene(pane, 400, 300);
 
-        primaryStage.setTitle("View Orders");
+        primaryStage.setTitle("Order Viewer");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -109,6 +121,9 @@ public class OrderProjectFXMain extends Application {
         updateViews();
     }
 
+    /**
+     * Update all views that can change
+     */
     private void updateViews() {
         left.update(currentOrder);
         order.update(currentOrder);
