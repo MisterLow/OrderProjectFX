@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import panes.*;
@@ -35,6 +37,8 @@ public class OrderProjectFXMain extends Application {
             System.err.println(ex);
         }
         paneSetup();
+        Alert dlgError = new Alert(Alert.AlertType.ERROR);
+        dlgError.setContentText("Numbers only");
 
         // Navigation
         left.getBtnFirst().setOnAction((e) -> {
@@ -57,14 +61,29 @@ public class OrderProjectFXMain extends Application {
             updateViews();
         });
 
-        // Prevent the user from altering the cusomer and order IDs
-        order.getTxtOrder().setOnKeyReleased(e -> {
-            order.getTxtOrder().setText(Integer.toString(orders.get(currentOrder).getOrderID()));
+        // Search
+        search.getTxtCustomer().setOnKeyPressed(e -> {
+            if (!isNumeric(e.getCode())) {
+                dlgError.show();
+            }
         });
-        order.getTxtCustomer().setOnKeyReleased(e -> {
-            order.getTxtCustomer().setText(Integer.toString(orders.get(currentOrder).getCustomerID()));
+        search.getBtnCustomer().setOnAction((e) -> {
+        });
+        search.getBtnProduct().setOnAction((e) -> {
         });
 
+        // Main
+        order.getTxtCustomer().setOnKeyPressed(e -> {
+            if ((!isNumeric(e.getCode()) & order.getTxtCustomer().isEditable())) {
+                dlgError.show();
+            }
+        });
+        order.getTxtOrder().setOnKeyPressed(e -> {
+            if ((!isNumeric(e.getCode()) & order.getTxtOrder().isEditable())) {
+                dlgError.show();
+            }
+        });
+        
         // Menu Items
         menu.getBtnUpdate().setOnAction((e) -> {
             orders.get(currentOrder).setProduct(order.getTxtProduct().getText());
@@ -119,6 +138,10 @@ public class OrderProjectFXMain extends Application {
         pane.setRight(right);
         pane.setBottom(menu);
         updateViews();
+    }
+
+    private boolean isNumeric(KeyCode code) {
+        return code.toString().startsWith("DIGIT");
     }
 
     /**

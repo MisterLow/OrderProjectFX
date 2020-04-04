@@ -22,9 +22,9 @@ public class OrderFile {
         FileReader fr = new FileReader("Order.dat");
         BufferedReader br = new BufferedReader(fr);
         String line = br.readLine();
-        if (line == null) {
-            throw new IOException("File Cannot be Empty");
-        }
+        //if (line == null) {
+        //    throw new IOException("File Cannot be Empty");
+        //}
         while (line != null) {
             StringTokenizer st = new StringTokenizer(line, ",");
             int orderNum = Integer.parseInt(st.nextToken().trim().substring(1));

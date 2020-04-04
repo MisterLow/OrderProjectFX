@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package panes;
 
 import content.Order;
@@ -16,5 +11,15 @@ import javafx.scene.layout.GridPane;
 public class ResultPane extends GridPane{
     private ArrayList<Order> orders;
     private int currentOrder;
-    
+     public ResultPane(ArrayList<Order> orders) {
+        
+    }
+
+    public ResultPane(ArrayList<Order> orders, int ID) {
+        
+    }
+
+    public ResultPane(ArrayList<Order> orders, String product) {
+        
+    }
 }
