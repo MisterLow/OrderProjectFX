@@ -1,5 +1,6 @@
 package panes;
 
+import orderprojectfx.NumField;
 import content.Order;
 import java.util.ArrayList;
 import javafx.geometry.Pos;
@@ -18,8 +19,8 @@ public class OrderPane extends GridPane {
     private final Label lblProduct = new Label("Product: ");
     private final Label lblShipping = new Label("Shipping Method: ");
 
-    private TextField txtOrder = new TextField();
-    private TextField txtCustomer = new TextField();
+    private NumField txtOrder = new NumField();
+    private NumField txtCustomer = new NumField();
     private TextField txtProduct = new TextField();
     private TextField txtShipping = new TextField();
 
@@ -53,8 +54,8 @@ public class OrderPane extends GridPane {
     
     public void update(int currentOrder) {
         this.currentOrder = currentOrder;
-        getTxtOrder().setText(Integer.toString(orders.get(currentOrder).getOrderID()));
-        getTxtCustomer().setText(Integer.toString(orders.get(currentOrder).getCustomerID()));
+        getTxtOrder().setNum(orders.get(currentOrder).getOrderID());
+        getTxtCustomer().setNum(orders.get(currentOrder).getCustomerID());
         getTxtProduct().setText(orders.get(currentOrder).getProduct());
         getTxtShipping().setText(orders.get(currentOrder).getShipping());
     }
@@ -62,14 +63,14 @@ public class OrderPane extends GridPane {
     /**
      * @return the txtOrder
      */
-    public TextField getTxtOrder() {
+    public NumField getTxtOrder() {
         return txtOrder;
     }
 
     /**
      * @return the txtCustomer
      */
-    public TextField getTxtCustomer() {
+    public NumField getTxtCustomer() {
         return txtCustomer;
     }
 
