@@ -212,6 +212,7 @@ public class OrderProjectFXMain extends Application {
         });
 
         Scene scene = new Scene(pane, 400, 300);
+        scene.getStylesheets().add("/style/MainStyle.css");
 
         primaryStage.setTitle("Order Viewer");
         primaryStage.setScene(scene);

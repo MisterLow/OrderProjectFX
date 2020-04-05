@@ -1,0 +1,14 @@
+/**
+ * Alexander Low
+ * 991266865
+ * Project
+ * 2020/04/04
+ */
+
+BorderPane{
+    -fx-padding: 10;
+}
+Button:pressed{
+    -fx-text-fill: black;
+    -fx-background-color: white;
+}

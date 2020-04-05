@@ -7,5 +7,7 @@
 
 .titles{
     -fx-font-weight: bolder;
-    -fx-alignment: CENTER;
+}
+GridPane{
+    -fx-padding: 10;
 }

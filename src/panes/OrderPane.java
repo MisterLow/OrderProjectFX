@@ -64,7 +64,7 @@ public class OrderPane extends GridPane {
 
     public void update(int currentOrder) {
         this.currentOrder = currentOrder;
-        if (!addView) {
+        if (!addView && !orders.isEmpty()) {
             getTxtOrder().setText(Integer.toString(orders.get(currentOrder).getOrderID()));
             getTxtCustomer().setText(Integer.toString(orders.get(currentOrder).getCustomerID()));
             getTxtProduct().setText(orders.get(currentOrder).getProduct());
