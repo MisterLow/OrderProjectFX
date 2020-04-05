@@ -21,28 +21,29 @@ public class MenuPane extends GridPane {
     private boolean addView = false;
 
     public MenuPane() {
-        add(btnAdd, 1, 0);
-        add(btnCancel, 0, 0);
-        add(btnUpdate, 2, 0);
-        add(btnDelete, 3, 0);
-        add(btnSave, 4, 0);
+        add(btnAdd, 0, 0);
+        add(btnCancel, 1, 0);
+        add(btnUpdate, 1, 0);
+        add(btnDelete, 2, 0);
+        add(btnSave, 3, 0);
+        orderView();
         setAlignment(Pos.CENTER);
     }
 
     public void addOrderView() {
-        btnUpdate.setVisible(addView);
-        btnDelete.setVisible(addView);
-        btnSave.setVisible(addView);
         addView = true;
-        btnCancel.setVisible(addView);
+        btnUpdate.setVisible(false);
+        btnDelete.setVisible(false);
+        btnSave.setVisible(false);
+        btnCancel.setVisible(true);
     }
 
     public void orderView() {
-        btnUpdate.setVisible(addView);
-        btnDelete.setVisible(addView);
-        btnSave.setVisible(addView);
         addView = false;
-        btnCancel.setVisible(addView);
+        btnUpdate.setVisible(true);
+        btnDelete.setVisible(true);
+        btnSave.setVisible(true);
+        btnCancel.setVisible(false);
     }
 
     /**
