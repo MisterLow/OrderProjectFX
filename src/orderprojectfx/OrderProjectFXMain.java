@@ -5,6 +5,8 @@ import data.OrderFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -25,11 +27,13 @@ public class OrderProjectFXMain extends Application {
     private ArrayList<Order> orders;
     private int currentOrder = 0;
 
-    private SearchPane search;
-    private LeftPane left;
-    private RightPane right;
-    private MenuPane menu;
-    private OrderPane order;
+    private SearchPane pnSearch;
+    private LeftPane pnLeft;
+    private RightPane pnRight;
+    private OrderPane pnOrder;
+    private AddOrderPane pnAddOrder;
+    private MenuPane pnMenu;
+    private AddMenuPane pnAddMenu;
     private BorderPane pane;
 
     @Override
@@ -50,85 +54,94 @@ public class OrderProjectFXMain extends Application {
         dlgEmpty.setHeaderText("Input Error");
         dlgEmpty.setContentText("Search cannot be blank");
 
+        Alert dlgOrderEmpty = new Alert(Alert.AlertType.ERROR);
+        dlgOrderEmpty.setHeaderText("Input Error");
+        dlgOrderEmpty.setContentText("Order fields cannot be blank");
+
         // Navigation
-        left.getBtnFirst().setOnAction((e) -> {
+        pnLeft.getBtnFirst().setOnAction((e) -> {
             currentOrder = 0;
             updateViews();
         });
-        left.getBtnPrev().setOnAction((e) -> {
+        pnLeft.getBtnPrev().setOnAction((e) -> {
             currentOrder--;
             updateViews();
 
         });
-        right.getBtnLast().setOnAction((e) -> {
+        pnRight.getBtnLast().setOnAction((e) -> {
             currentOrder = orders.size() - 1;
             updateViews();
 
         });
-        right.getBtnNext().setOnAction((e) -> {
+        pnRight.getBtnNext().setOnAction((e) -> {
             currentOrder++;
             updateViews();
         });
 
         // Search
-        search.getTxtCustomer().setOnKeyPressed(e -> {
-            if (e.getCode().toString().equals("ENTER") && !(search.getTxtCustomer().getText().isEmpty())) {
-                SearchResultStage searchStage = new SearchResultStage(orders, Integer.parseInt(search.getTxtCustomer().getText()));
+        pnSearch.getTxtCustomer().setOnKeyPressed(e -> {
+            if (e.getCode().toString().equals("ENTER") && !(pnSearch.getTxtCustomer().getText().isEmpty())) {
+                SearchResultStage searchStage = new SearchResultStage(orders, Integer.parseInt(pnSearch.getTxtCustomer().getText()));
                 searchStage.show();
             } else if (e.getCode().toString().equals("ENTER")) {
+                dlgEmpty.setContentText("Search cannot be blank");
                 dlgEmpty.show();
             } else if (!isNumeric(e.getCode())) {
                 dlgInputMismatch.show();
             }
         });
-        search.getTxtProduct().setOnKeyPressed(e -> {
-            if (e.getCode().toString().equals("ENTER") && !(search.getTxtCustomer().getText().isEmpty())) {
-                SearchResultStage searchStage = new SearchResultStage(orders, search.getTxtProduct().getText());
+        pnSearch.getTxtProduct().setOnKeyPressed(e -> {
+            if (e.getCode().toString().equals("ENTER") && !(pnSearch.getTxtCustomer().getText().isEmpty())) {
+                SearchResultStage searchStage = new SearchResultStage(orders, pnSearch.getTxtProduct().getText());
                 searchStage.show();
             } else if (e.getCode().toString().equals("ENTER")) {
+                dlgEmpty.setContentText("Search cannot be blank");
                 dlgEmpty.show();
             }
         });
-        search.getBtnSearch().setOnAction((e) -> {
-            if (!(search.getTxtCustomer().getText().isEmpty())) {
-                SearchResultStage searchStage = new SearchResultStage(orders, Integer.parseInt(search.getTxtCustomer().getText()));
+        pnSearch.getBtnSearch().setOnAction((e) -> {
+            if (!(pnSearch.getTxtCustomer().getText().isEmpty())) {
+                SearchResultStage searchStage = new SearchResultStage(orders, Integer.parseInt(pnSearch.getTxtCustomer().getText()));
                 searchStage.show();
-            } else if (!search.getTxtProduct().getText().isEmpty()) {
-                SearchResultStage searchStage = new SearchResultStage(orders, search.getTxtProduct().getText());
+            } else if (!pnSearch.getTxtProduct().getText().isEmpty()) {
+                SearchResultStage searchStage = new SearchResultStage(orders, pnSearch.getTxtProduct().getText());
                 searchStage.show();
             }
         });
-        search.getBtnView().setOnAction((e) -> {
+        pnSearch.getBtnView().setOnAction((e) -> {
             SearchResultStage resultStage = new SearchResultStage(orders);
             resultStage.show();
         });
 
         // Main
-        order.getTxtCustomer().setOnKeyPressed(e -> {
-            if ((!isNumeric(e.getCode()) & order.getTxtCustomer().isEditable())) {
+        pnOrder.getTxtCustomer().setOnKeyPressed(e -> {
+            if ((!isNumeric(e.getCode()) & pnOrder.getTxtCustomer().isEditable())) {
                 dlgInputMismatch.show();
             }
         });
-        order.getTxtOrder().setOnKeyPressed(e -> {
-            if ((!isNumeric(e.getCode()) & order.getTxtOrder().isEditable())) {
+        pnOrder.getTxtOrder().setOnKeyPressed(e -> {
+            if ((!isNumeric(e.getCode()) & pnOrder.getTxtOrder().isEditable())) {
                 dlgInputMismatch.show();
             }
         });
 
         // Menu Items
-        menu.getBtnUpdate().setOnAction((e) -> {
+        pnMenu.getBtnAdd().setOnAction((e) -> {
+            newOrderView(true);
+        });
+        pnMenu.getBtnUpdate().setOnAction((e) -> {
             Alert dlgConfirmation = new Alert(AlertType.CONFIRMATION);
             Optional<ButtonType> result = dlgConfirmation.showAndWait();
             if (result.get() == ButtonType.OK) {
-                orders.get(currentOrder).setProduct(order.getTxtProduct().getText());
-                orders.get(currentOrder).setShipping(order.getTxtShipping().getText());
+                orders.get(currentOrder).setProduct(pnOrder.getTxtProduct().getText());
+                orders.get(currentOrder).setShipping(pnOrder.getTxtShipping().getText());
             } else {
-                order.add();
+                pnOrder.reset();
             }
 
             updateViews();
         });
-        menu.getBtnDelete().setOnAction((e) -> {
+        pnMenu.getBtnDelete().setOnAction((e) -> {
             Alert dlgConfirmation = new Alert(AlertType.CONFIRMATION);
             Optional<ButtonType> result = dlgConfirmation.showAndWait();
             if (result.get() == ButtonType.OK) {
@@ -136,12 +149,43 @@ public class OrderProjectFXMain extends Application {
                 updateViews();
             }
         });
-        menu.getBtnSave().setOnAction((e) -> {
+        pnMenu.getBtnSave().setOnAction((e) -> {
             try {
                 OrderFile.saveOrders(orders);
             } catch (IOException ex) {
                 System.err.println("Save error");
             }
+        });
+
+        // Menu Options for adding a new Order
+        pnAddMenu.getBtnAdd().setOnAction((e) -> {
+            boolean completedForm = true;
+            if (pnAddOrder.getTxtOrder().getText().isEmpty()) {
+                completedForm = false;
+                pnAddOrder.getTxtOrder().requestFocus();
+            } else if (pnAddOrder.getTxtCustomer().getText().isEmpty()) {
+                completedForm = false;
+                pnAddOrder.getTxtCustomer().requestFocus();
+            } else if (pnAddOrder.getTxtProduct().getText().isEmpty()) {
+                completedForm = false;
+                pnAddOrder.getTxtProduct().requestFocus();
+            } else if (pnAddOrder.getTxtShipping().getText().isEmpty()) {
+                completedForm = false;
+                pnAddOrder.getTxtShipping().requestFocus();
+            }
+            if (!completedForm) {
+                dlgOrderEmpty.show();
+            } else {
+                try {
+                    orders.add(pnAddOrder.generateOrder());
+                } catch (Exception ex) {
+                    System.err.println(ex);
+                }
+                newOrderView(false);
+            }
+        });
+        pnAddMenu.getBtnCancel().setOnAction((e) -> {
+            newOrderView(false);
         });
 
         Scene scene = new Scene(pane, 400, 300);
@@ -168,24 +212,55 @@ public class OrderProjectFXMain extends Application {
     }
 
     private void paneSetup() {
-        menu = new MenuPane();
-        left = new LeftPane(orders, currentOrder);
-        order = new OrderPane(orders, currentOrder);
-        right = new RightPane(orders, currentOrder);
+        pnMenu = new MenuPane();
+        pnAddMenu = new AddMenuPane();
+        pnLeft = new LeftPane(orders, currentOrder);
+        pnOrder = new OrderPane(orders, currentOrder);
+        pnAddOrder = new AddOrderPane();
+        pnRight = new RightPane(orders, currentOrder);
         pane = new BorderPane();
-        search = new SearchPane();
-        pane.setTop(search);
-        pane.setLeft(left);
-        pane.setCenter(order);
-        pane.setRight(right);
-        pane.setBottom(menu);
+        pnSearch = new SearchPane();
+        pane.setTop(pnSearch);
+        pane.setLeft(pnLeft);
+        pane.setCenter(pnOrder);
+        pane.setRight(pnRight);
+        pane.setBottom(pnMenu);
         updateViews();
     }
 
+    /**
+     * Checks if a code is a number, but will also allow back space to be
+     * pressed
+     *
+     * @param code
+     * @return true if the Value is a number or back space character
+     */
     private boolean isNumeric(KeyCode code) {
         return (code.toString().startsWith("DIGIT"))
                 || (code.toString().startsWith("NUMPAD"))
                 || (code.toString().equals("BACK_SPACE"));
+    }
+
+    /**
+     * Switch between the regular view and adding a new order
+     *
+     * @param on
+     */
+    private void newOrderView(boolean on) {
+        if (on) {
+            pane.setCenter(pnAddOrder);
+            pane.setBottom(pnAddMenu);
+            pnLeft.hide();
+            pnRight.hide();
+            pnAddOrder.getTxtOrder().requestFocus();
+        } else {
+            pnAddOrder.reset();
+            pane.setCenter(pnOrder);
+            pane.setBottom(pnMenu);
+            pnLeft.show();
+            pnRight.show();
+        }
+        updateViews();
     }
 
     /**
@@ -197,8 +272,8 @@ public class OrderProjectFXMain extends Application {
         } else if (currentOrder < 0) {
             currentOrder++;
         }
-        left.update(currentOrder);
-        order.update(currentOrder);
-        right.update(currentOrder);
+        pnLeft.update(currentOrder);
+        pnOrder.update(currentOrder);
+        pnRight.update(currentOrder);
     }
 }

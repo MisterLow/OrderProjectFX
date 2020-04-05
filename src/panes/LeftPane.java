@@ -26,17 +26,31 @@ public class LeftPane extends GridPane {
         update(currentOrder);
     }
 
+    /**
+     * Hide the pane
+     */
+    public void hide() {
+        this.setVisible(false);
+    }
+
+    /**
+     * Show the pane
+     */
+    public void show() {
+        this.setVisible(true);
+    }
+
     public void update(int currentOrder) {
         this.currentOrder = currentOrder;
         if (currentOrder == 0) {
             getBtnFirst().setVisible(false);
             getBtnPrev().setVisible(false);
-        }else{
+        } else {
             getBtnFirst().setVisible(true);
             getBtnPrev().setVisible(true);
         }
     }
-    
+
     /**
      * @return the btnFirst
      */

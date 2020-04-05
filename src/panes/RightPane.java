@@ -25,6 +25,20 @@ public class RightPane extends GridPane {
         update(currentOrder);
     }
 
+    /**
+     * Hide the pane
+     */
+    public void hide() {
+        this.setVisible(false);
+    }
+
+    /**
+     * Show the pane
+     */
+    public void show() {
+        this.setVisible(true);
+    }
+
     public void update(int currentOrder) {
         this.currentOrder = currentOrder;
         if (currentOrder == orders.size() - 1) {

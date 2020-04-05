@@ -38,13 +38,13 @@ public class OrderPane extends GridPane {
         add(txtCustomer, 1, 1);
         txtCustomer.setEditable(false);
         add(txtProduct, 1, 2);
-        txtProduct.redoableProperty();
         add(txtShipping, 1, 3);
+
         setAlignment(Pos.CENTER);
         update(currentOrder);
     }
 
-    public void add() {
+    public void reset() {
         getTxtOrder().setText(Integer.toString(orders.get(currentOrder).getOrderID()));
         getTxtCustomer().setText(Integer.toString(orders.get(currentOrder).getCustomerID()));
         getTxtProduct().setText(orders.get(currentOrder).getProduct());
