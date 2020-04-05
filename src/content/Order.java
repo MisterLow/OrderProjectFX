@@ -1,8 +1,10 @@
 package content;
 
 /**
- *
- * @author Alexander
+ * Alexander Low
+ * 991266865
+ * Project
+ * 2020/04/04
  */
 public class Order {
 
@@ -10,7 +12,7 @@ public class Order {
     private String product, shipping;
 
     public Order(int orderID) {
-        setOrderID(orderID);
+        this.orderID = orderID;
     }
 
     /**
