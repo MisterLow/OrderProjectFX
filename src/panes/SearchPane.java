@@ -14,9 +14,9 @@ import javafx.scene.layout.GridPane;
  */
 public class SearchPane extends GridPane {
 
-    private Label lblCustomer = new Label("Customer Search: ");
-    private TextField txtCustomer = new TextField();
-    private Label lblProduct = new Label("Product Search: ");
+    private final Label lblCustomer = new Label("Customer Search: ");
+    private final TextField txtCustomer = new TextField();
+    private final Label lblProduct = new Label("Product Search: ");
     private TextField txtProduct = new TextField();
     private final Button btnSearch = new Button("Search");
     private final Button btnView = new Button("View All");

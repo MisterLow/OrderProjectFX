@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import panes.*;
@@ -39,9 +38,10 @@ public class OrderProjectFXMain extends Application {
         // Setup
         try {
             orders = OrderFile.loadOrders();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             System.err.println(ex);
         }
+
         paneSetup();
 
         // Create warnings
@@ -91,7 +91,7 @@ public class OrderProjectFXMain extends Application {
             } else if (e.getCode().toString().equals("ENTER")) {
                 dlgEmpty.setContentText("Search cannot be blank");
                 dlgEmpty.show();
-            } else if (!isNumeric(e.getCode())) {
+            } else if (!(KeyCodeCheck.isNumeric(e.getCode()) || (KeyCodeCheck.acceptableChar(e.getCode())))) {
                 dlgInputMismatch.show();
             }
         });
@@ -123,19 +123,22 @@ public class OrderProjectFXMain extends Application {
         });
 
         // Main
-        pnOrder.getTxtCustomer().setOnKeyPressed(e -> {
-            if ((!isNumeric(e.getCode())
-                    & pnOrder.getTxtCustomer().isEditable())) {
-                dlgInputMismatch.show();
-            }
-        });
         pnOrder.getTxtOrder().setOnKeyPressed(e -> {
-            if ((!isNumeric(e.getCode())
-                    & pnOrder.getTxtOrder().isEditable())) {
+            if (!(KeyCodeCheck.isNumeric(e.getCode())
+                    || (KeyCodeCheck.acceptableChar(e.getCode())))
+                    && (pnOrder.getTxtCustomer().isEditable())) {
                 dlgInputMismatch.show();
             }
         });
 
+        pnOrder.getTxtCustomer().setOnKeyPressed(e -> {
+            if (!(KeyCodeCheck.isNumeric(e.getCode())
+                    || (KeyCodeCheck.acceptableChar(e.getCode())))
+                    && (pnOrder.getTxtCustomer().isEditable())) {
+                System.out.println("dddd");
+                dlgInputMismatch.show();
+            }
+        });
         // Menu Items
         pnMenu.getBtnAdd().setOnAction((e) -> {
             if (!pnMenu.isAddView()) {
@@ -171,6 +174,7 @@ public class OrderProjectFXMain extends Application {
         });
         pnMenu.getBtnCancel().setOnAction((e) -> {
             newOrderView(false);
+            updateViews();
         });
         pnMenu.getBtnUpdate().setOnAction((e) -> {
             Alert dlgConfirmation = new Alert(AlertType.CONFIRMATION);
@@ -248,19 +252,6 @@ public class OrderProjectFXMain extends Application {
         pane.setRight(pnRight);
         pane.setBottom(pnMenu);
         updateViews();
-    }
-
-    /**
-     * Checks if a code is a number, but will also allow back space to be
-     * pressed
-     *
-     * @param code
-     * @return true if the Value is a number or back space character
-     */
-    private boolean isNumeric(KeyCode code) {
-        return (code.toString().startsWith("DIGIT"))
-                || (code.toString().startsWith("NUMPAD"))
-                || (code.toString().equals("BACK_SPACE"));
     }
 
     /**

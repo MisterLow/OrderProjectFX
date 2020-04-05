@@ -19,26 +19,62 @@ import java.util.Iterator;
  * 2020/04/04
  */
 public class OrderFile {
-
-    public static ArrayList<Order> loadOrders() throws FileNotFoundException, IOException {
+    
+    /**
+     * Load all of the Orders from the file Order.dat
+     *
+     * @return An ArrayList of Order objects found in the file Order.dat
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws Exception if the file isn't correctly formatted
+     */
+    public static ArrayList<Order> loadOrders() throws FileNotFoundException,
+            IOException, Exception {
         ArrayList<Order> orders = new ArrayList<>();
         File file = new File("Order.dat");
+
         if (!file.exists()) {
             file.createNewFile();
             return orders;
         }
         FileReader fr = new FileReader(file);
         BufferedReader br = new BufferedReader(fr);
+        String regex = "\\d+";
         String line = br.readLine();
+        
         if (line == null) {
+            br.close();
+            fr.close();
             return orders;
         }
+
         while (line != null) {
             StringTokenizer st = new StringTokenizer(line, ",");
-            int orderNum = Integer.parseInt(st.nextToken().trim().substring(1));
-            int customerNum = Integer.parseInt(st.nextToken().trim().substring(1));
-            Order order = new Order(orderNum);
-            order.setCustomerID(customerNum);
+            String orderNum = st.nextToken().trim().substring(1);
+
+            if (st.countTokens() < 3) {
+                br.close();
+                fr.close();
+                throw new Exception("Formatting error in Order.dat");
+            }
+
+            if (!orderNum.matches(regex)) {
+                br.close();
+                fr.close();
+                throw new Exception("Invalid Order Number");
+            }
+            int orderNumber = Integer.parseInt(orderNum);
+            Order order = new Order(orderNumber);
+
+            String customerNum = st.nextToken().trim().substring(1);
+            if (!customerNum.matches(regex)) {
+                br.close();
+                fr.close();
+                throw new Exception("Invalid Customer ID");
+            }
+            int customerNumber = Integer.parseInt(customerNum);
+            order.setCustomerID(customerNumber);
+
             order.setProduct(st.nextToken().trim());
             order.setShipping(st.nextToken().trim());
             orders.add(order);
@@ -49,6 +85,13 @@ public class OrderFile {
         return orders;
     }
 
+    /**
+     * Saves an ArrayList of Order objects to Order.dat in the following format:
+     * o[orderID:int], c[customerID:int], [product:String], [shipping:String]
+     *
+     * @param orders an ArrayList of Order objects
+     * @throws IOException
+     */
     public static void saveOrders(ArrayList<Order> orders) throws IOException {
         FileWriter fw = new FileWriter("Order.dat", false);
         BufferedWriter bw = new BufferedWriter(fw);
