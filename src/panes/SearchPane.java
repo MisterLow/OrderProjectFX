@@ -1,6 +1,5 @@
 package panes;
 
-import orderprojectfx.NumField;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,7 +13,7 @@ import javafx.scene.layout.GridPane;
 public class SearchPane extends GridPane {
 
     private Label lblCustomer = new Label("Customer Search: ");
-    private NumField txtCustomer = new NumField();
+    private TextField txtCustomer = new TextField();
     private Label lblProduct = new Label("Product Search: ");
     private TextField txtProduct = new TextField();
     private final Button btnSearch = new Button("Search");
@@ -33,7 +32,7 @@ public class SearchPane extends GridPane {
     /**
      * @return the txtCustomer
      */
-    public NumField getTxtCustomer() {
+    public TextField getTxtCustomer() {
         return txtCustomer;
     }
 

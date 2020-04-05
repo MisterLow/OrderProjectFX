@@ -73,7 +73,7 @@ public class OrderProjectFXMain extends Application {
         // Search
         search.getTxtCustomer().setOnKeyPressed(e -> {
             if (e.getCode().toString().equals("ENTER") && !(search.getTxtCustomer().getText().isEmpty())) {
-                SearchResultStage searchStage = new SearchResultStage(orders, search.getTxtCustomer().getNum());
+                SearchResultStage searchStage = new SearchResultStage(orders, Integer.parseInt(search.getTxtCustomer().getText()));
                 searchStage.show();
             } else if (e.getCode().toString().equals("ENTER")) {
                 dlgEmpty.show();
@@ -82,25 +82,25 @@ public class OrderProjectFXMain extends Application {
             }
         });
         search.getTxtProduct().setOnKeyPressed(e -> {
-            if (e.getCode().toString().equals("ENTER") && !(search.getTxtProduct().getText().isEmpty())) {
+            if (e.getCode().toString().equals("ENTER") && !(search.getTxtCustomer().getText().isEmpty())) {
                 SearchResultStage searchStage = new SearchResultStage(orders, search.getTxtProduct().getText());
                 searchStage.show();
             } else if (e.getCode().toString().equals("ENTER")) {
                 dlgEmpty.show();
             }
         });
-        search.getBtnView().setOnAction((e) -> {
-            SearchResultStage resultStage = new SearchResultStage(orders);
-            resultStage.show();
-        });
         search.getBtnSearch().setOnAction((e) -> {
-            if (!search.getTxtCustomer().getText().isEmpty()) {
-                SearchResultStage searchStage = new SearchResultStage(orders, search.getTxtCustomer().getNum());
+            if (!(search.getTxtCustomer().getText().isEmpty())) {
+                SearchResultStage searchStage = new SearchResultStage(orders, Integer.parseInt(search.getTxtCustomer().getText()));
                 searchStage.show();
             } else if (!search.getTxtProduct().getText().isEmpty()) {
                 SearchResultStage searchStage = new SearchResultStage(orders, search.getTxtProduct().getText());
                 searchStage.show();
             }
+        });
+        search.getBtnView().setOnAction((e) -> {
+            SearchResultStage resultStage = new SearchResultStage(orders);
+            resultStage.show();
         });
 
         // Main
@@ -117,8 +117,15 @@ public class OrderProjectFXMain extends Application {
 
         // Menu Items
         menu.getBtnUpdate().setOnAction((e) -> {
-            orders.get(currentOrder).setProduct(order.getTxtProduct().getText());
-            orders.get(currentOrder).setShipping(order.getTxtShipping().getText());
+            Alert dlgConfirmation = new Alert(AlertType.CONFIRMATION);
+            Optional<ButtonType> result = dlgConfirmation.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                orders.get(currentOrder).setProduct(order.getTxtProduct().getText());
+                orders.get(currentOrder).setShipping(order.getTxtShipping().getText());
+            } else {
+                order.add();
+            }
+
             updateViews();
         });
         menu.getBtnDelete().setOnAction((e) -> {
