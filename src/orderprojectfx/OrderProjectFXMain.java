@@ -81,7 +81,8 @@ public class OrderProjectFXMain extends Application {
         // Search
         pnSearch.getTxtCustomer().setOnKeyPressed(e -> {
             if (e.getCode().toString().equals("ENTER") && !(pnSearch.getTxtCustomer().getText().isEmpty())) {
-                SearchResultStage searchStage = new SearchResultStage(orders, Integer.parseInt(pnSearch.getTxtCustomer().getText()));
+                SearchResultStage searchStage = new SearchResultStage(orders,
+                        Integer.parseInt(pnSearch.getTxtCustomer().getText()));
                 searchStage.show();
             } else if (e.getCode().toString().equals("ENTER")) {
                 dlgEmpty.setContentText("Search cannot be blank");
@@ -91,8 +92,10 @@ public class OrderProjectFXMain extends Application {
             }
         });
         pnSearch.getTxtProduct().setOnKeyPressed(e -> {
-            if (e.getCode().toString().equals("ENTER") && !(pnSearch.getTxtCustomer().getText().isEmpty())) {
-                SearchResultStage searchStage = new SearchResultStage(orders, pnSearch.getTxtProduct().getText());
+            if (e.getCode().toString().equals("ENTER")
+                    && !(pnSearch.getTxtCustomer().getText().isEmpty())) {
+                SearchResultStage searchStage = new SearchResultStage(
+                        orders, pnSearch.getTxtProduct().getText());
                 searchStage.show();
             } else if (e.getCode().toString().equals("ENTER")) {
                 dlgEmpty.setContentText("Search cannot be blank");
@@ -101,10 +104,12 @@ public class OrderProjectFXMain extends Application {
         });
         pnSearch.getBtnSearch().setOnAction((e) -> {
             if (!(pnSearch.getTxtCustomer().getText().isEmpty())) {
-                SearchResultStage searchStage = new SearchResultStage(orders, Integer.parseInt(pnSearch.getTxtCustomer().getText()));
+                SearchResultStage searchStage = new SearchResultStage(orders,
+                        Integer.parseInt(pnSearch.getTxtCustomer().getText()));
                 searchStage.show();
             } else if (!pnSearch.getTxtProduct().getText().isEmpty()) {
-                SearchResultStage searchStage = new SearchResultStage(orders, pnSearch.getTxtProduct().getText());
+                SearchResultStage searchStage = new SearchResultStage(
+                        orders, pnSearch.getTxtProduct().getText());
                 searchStage.show();
             }
         });
@@ -115,12 +120,14 @@ public class OrderProjectFXMain extends Application {
 
         // Main
         pnOrder.getTxtCustomer().setOnKeyPressed(e -> {
-            if ((!isNumeric(e.getCode()) & pnOrder.getTxtCustomer().isEditable())) {
+            if ((!isNumeric(e.getCode())
+                    & pnOrder.getTxtCustomer().isEditable())) {
                 dlgInputMismatch.show();
             }
         });
         pnOrder.getTxtOrder().setOnKeyPressed(e -> {
-            if ((!isNumeric(e.getCode()) & pnOrder.getTxtOrder().isEditable())) {
+            if ((!isNumeric(e.getCode())
+                    & pnOrder.getTxtOrder().isEditable())) {
                 dlgInputMismatch.show();
             }
         });
@@ -132,11 +139,14 @@ public class OrderProjectFXMain extends Application {
         pnMenu.getBtnUpdate().setOnAction((e) -> {
             Alert dlgConfirmation = new Alert(AlertType.CONFIRMATION);
             dlgConfirmation.setHeaderText("Update Confimation");
-            dlgConfirmation.setContentText("Are you sure you want to update this order?");
+            dlgConfirmation.setContentText(
+                    "Are you sure you want to update this order?");
             Optional<ButtonType> result = dlgConfirmation.showAndWait();
             if (result.get() == ButtonType.OK) {
-                orders.get(currentOrder).setProduct(pnOrder.getTxtProduct().getText());
-                orders.get(currentOrder).setShipping(pnOrder.getTxtShipping().getText());
+                orders.get(currentOrder).setProduct(
+                        pnOrder.getTxtProduct().getText());
+                orders.get(currentOrder).setShipping(
+                        pnOrder.getTxtShipping().getText());
             } else {
                 pnOrder.reset();
             }
@@ -146,7 +156,8 @@ public class OrderProjectFXMain extends Application {
         pnMenu.getBtnDelete().setOnAction((e) -> {
             Alert dlgConfirmation = new Alert(AlertType.CONFIRMATION);
             dlgConfirmation.setHeaderText("Delete Confimation");
-            dlgConfirmation.setContentText("Are you sure you want to delete this order?");
+            dlgConfirmation.setContentText(
+                    "Are you sure you want to delete this order?");
             Optional<ButtonType> result = dlgConfirmation.showAndWait();
             if (result.get() == ButtonType.OK) {
                 orders.remove(currentOrder);
@@ -268,7 +279,8 @@ public class OrderProjectFXMain extends Application {
     }
 
     /**
-     * Update all views that can change
+     * Update all views that can change to display the correct information for
+     * the current order
      */
     private void updateViews() {
         if (currentOrder > orders.size() - 1) {

@@ -14,24 +14,26 @@ public class SearchResultStage extends Stage {
 
     private final int ID;
     private final String product;
+    private final String title;
     ArrayList<Order> orders;
 
     public SearchResultStage(ArrayList<Order> orders) {
-        this(orders, -1, null);
+        this(orders, -1, null, "All Orders");
     }
 
     public SearchResultStage(ArrayList<Order> orders, int ID) {
-        this(orders, ID, null);
+        this(orders, ID, null, "Matching Customer Results");
     }
 
     public SearchResultStage(ArrayList<Order> orders, String product) {
-        this(orders, -1, product);
+        this(orders, -1, product, "Matching Product Results");
     }
 
-    public SearchResultStage(ArrayList<Order> orders, int ID, String product) {
+    public SearchResultStage(ArrayList<Order> orders, int ID, String product, String title) {
         this.orders = orders;
         this.ID = ID;
         this.product = product;
+        this.title = title;
         setScene(addScene());
     }
 
@@ -56,7 +58,8 @@ public class SearchResultStage extends Stage {
         }
 
         ResultPane pane = new ResultPane(orderResults);
-
-        return new Scene(pane, 300, 300);
+        Scene scene = new Scene(pane, 300, (100 + (orderResults.size() * 25)));
+        this.setTitle(title);
+        return scene;
     }
 }
