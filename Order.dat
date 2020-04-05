@@ -1,10 +1,10 @@
-O0, C0, Prod: 0, Ship: 0
-O1, C1, Prod: 1, Ship: 1
-O2, C2, Prod: 2, Ship: 2
-O3, C3, Prod: 3, Ship: 3
-O4, C4, Prod: 4, Ship: 4
-O5, C5, Prod: 5, Ship: 5
-O6, C6, Prod: 6, Ship: 6
-O7, C7, Prod: 7, Ship: 7
-O8, C8, Prod: 8, Ship: 8
-O9, C9, Prod: 9, Ship: 9
+O10, C101, pants, mail
+O166, C103, coat, express
+O88, C104, shoes, pick up
+O99, C102, shirt, express
+O1500, C505, glasses, mail
+O120, C101, pants, mail
+O16, C103, coat, express
+O58, C104, mask, pick up
+O69, C102, ps4, express
+O150, C505, jeans, mail

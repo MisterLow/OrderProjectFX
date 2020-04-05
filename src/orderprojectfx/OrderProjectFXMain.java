@@ -5,8 +5,6 @@ import data.OrderFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -19,8 +17,10 @@ import panes.*;
 import stages.SearchResultStage;
 
 /**
- *
- * @author Alexander
+ * Alexander Low 
+ * 991266865 
+ * Project 
+ * 2020/04/04
  */
 public class OrderProjectFXMain extends Application {
 
@@ -131,6 +131,8 @@ public class OrderProjectFXMain extends Application {
         });
         pnMenu.getBtnUpdate().setOnAction((e) -> {
             Alert dlgConfirmation = new Alert(AlertType.CONFIRMATION);
+            dlgConfirmation.setHeaderText("Update Confimation");
+            dlgConfirmation.setContentText("Are you sure you want to update this order?");
             Optional<ButtonType> result = dlgConfirmation.showAndWait();
             if (result.get() == ButtonType.OK) {
                 orders.get(currentOrder).setProduct(pnOrder.getTxtProduct().getText());
@@ -143,6 +145,8 @@ public class OrderProjectFXMain extends Application {
         });
         pnMenu.getBtnDelete().setOnAction((e) -> {
             Alert dlgConfirmation = new Alert(AlertType.CONFIRMATION);
+            dlgConfirmation.setHeaderText("Delete Confimation");
+            dlgConfirmation.setContentText("Are you sure you want to delete this order?");
             Optional<ButtonType> result = dlgConfirmation.showAndWait();
             if (result.get() == ButtonType.OK) {
                 orders.remove(currentOrder);

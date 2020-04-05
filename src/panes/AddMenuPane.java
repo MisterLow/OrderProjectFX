@@ -5,8 +5,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 /**
- *
- * @author Alexander
+ * Alexander Low
+ * 991266865
+ * Project
+ * 2020/04/04
  */
 public class AddMenuPane extends GridPane {
 

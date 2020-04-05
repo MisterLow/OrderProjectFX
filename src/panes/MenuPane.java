@@ -5,17 +5,20 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 /**
- *
- * @author Alexander
+ * Alexander Low
+ * 991266865
+ * Project
+ * 2020/04/04
  */
 public class MenuPane extends GridPane {
 
-    private Button btnAdd = new Button("Add");
-    private Button btnUpdate = new Button("Update");
-    private Button btnDelete = new Button("Delete");
-    private Button btnSave = new Button("Save");
+    private final Button btnAdd = new Button("Add");
+    private final Button btnUpdate = new Button("Update");
+    private final Button btnDelete;
+    private final Button btnSave = new Button("Save");
 
     public MenuPane() {
+        this.btnDelete = new Button("Delete");
         add(btnAdd, 0, 0);
         add(btnUpdate, 1, 0);
         add(btnDelete, 2, 0);
