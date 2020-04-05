@@ -9,6 +9,6 @@ BorderPane{
     -fx-padding: 10;
 }
 Button:pressed{
-    -fx-text-fill: black;
-    -fx-background-color: white;
+    -fx-text-fill: white;
+    -fx-background-color: darkslategrey;
 }

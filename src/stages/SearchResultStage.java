@@ -60,7 +60,7 @@ public class SearchResultStage extends Stage {
         }
 
         ResultPane pane = new ResultPane(orderResults);
-        Scene scene = new Scene(pane, 300, (100 + (orderResults.size() * 25)));
+        Scene scene = new Scene(pane, 350, (100 + (orderResults.size() * 25)));
         this.setTitle(title);
         return scene;
     }
