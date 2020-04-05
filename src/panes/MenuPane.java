@@ -13,17 +13,36 @@ import javafx.scene.layout.GridPane;
 public class MenuPane extends GridPane {
 
     private final Button btnAdd = new Button("Add");
+    private final Button btnCancel = new Button("Cancel");
     private final Button btnUpdate = new Button("Update");
-    private final Button btnDelete;
+    private final Button btnDelete = new Button("Delete");
     private final Button btnSave = new Button("Save");
 
+    private boolean addView = false;
+
     public MenuPane() {
-        this.btnDelete = new Button("Delete");
-        add(btnAdd, 0, 0);
-        add(btnUpdate, 1, 0);
-        add(btnDelete, 2, 0);
-        add(btnSave, 3, 0);
+        add(btnAdd, 1, 0);
+        add(btnCancel, 0, 0);
+        add(btnUpdate, 2, 0);
+        add(btnDelete, 3, 0);
+        add(btnSave, 4, 0);
         setAlignment(Pos.CENTER);
+    }
+
+    public void addOrderView() {
+        btnUpdate.setVisible(addView);
+        btnDelete.setVisible(addView);
+        btnSave.setVisible(addView);
+        addView = true;
+        btnCancel.setVisible(addView);
+    }
+
+    public void orderView() {
+        btnUpdate.setVisible(addView);
+        btnDelete.setVisible(addView);
+        btnSave.setVisible(addView);
+        addView = false;
+        btnCancel.setVisible(addView);
     }
 
     /**
@@ -31,6 +50,13 @@ public class MenuPane extends GridPane {
      */
     public Button getBtnAdd() {
         return btnAdd;
+    }
+
+    /**
+     * @return the btnUpdate
+     */
+    public Button getBtnCancel() {
+        return btnCancel;
     }
 
     /**
@@ -52,5 +78,12 @@ public class MenuPane extends GridPane {
      */
     public Button getBtnSave() {
         return btnSave;
+    }
+
+    /**
+     * @return the addView
+     */
+    public boolean isAddView() {
+        return addView;
     }
 }

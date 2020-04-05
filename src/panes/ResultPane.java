@@ -11,10 +11,10 @@ import javafx.scene.layout.GridPane;
  */
 public class ResultPane extends GridPane {
 
-    private final Label lblOrder = new Label("Orders");
-    private final Label lblCustomer = new Label("Customers");
-    private final Label lblProduct = new Label("Products");
-    private final Label lblShipping = new Label("Shipping Methods");
+    private final Label lblOrder = new Label("Order #");
+    private final Label lblCustomer = new Label("Customer #");
+    private final Label lblProduct = new Label("Product");
+    private final Label lblShipping = new Label("Shipping Method");
 
     public ResultPane(ArrayList<Order> orders) {
         if (orders.isEmpty()) {

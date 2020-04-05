@@ -32,7 +32,6 @@ public class OrderProjectFXMain extends Application {
     private RightPane pnRight;
     private OrderPane pnOrder;
     private MenuPane pnMenu;
-    private AddMenuPane pnAddMenu;
     private BorderPane pane;
 
     @Override
@@ -133,7 +132,37 @@ public class OrderProjectFXMain extends Application {
 
         // Menu Items
         pnMenu.getBtnAdd().setOnAction((e) -> {
-            newOrderView(true);
+            if (!pnMenu.isAddView()) {
+                newOrderView(true);
+            } else {
+                boolean completedForm = true;
+                if (pnOrder.getTxtOrder().getText().isEmpty()) {
+                    completedForm = false;
+                    pnOrder.getTxtOrder().requestFocus();
+                } else if (pnOrder.getTxtCustomer().getText().isEmpty()) {
+                    completedForm = false;
+                    pnOrder.getTxtCustomer().requestFocus();
+                } else if (pnOrder.getTxtProduct().getText().isEmpty()) {
+                    completedForm = false;
+                    pnOrder.getTxtProduct().requestFocus();
+                } else if (pnOrder.getTxtShipping().getText().isEmpty()) {
+                    completedForm = false;
+                    pnOrder.getTxtShipping().requestFocus();
+                }
+                if (!completedForm) {
+                    dlgOrderEmpty.show();
+                } else {
+                    try {
+                        orders.add(pnOrder.generateOrder());
+                    } catch (Exception ex) {
+                        System.err.println(ex);
+                    }
+                    newOrderView(false);
+                }
+            }
+        });
+        pnMenu.getBtnCancel().setOnAction((e) -> {
+            newOrderView(false);
         });
         pnMenu.getBtnUpdate().setOnAction((e) -> {
             Alert dlgConfirmation = new Alert(AlertType.CONFIRMATION);
@@ -149,7 +178,6 @@ public class OrderProjectFXMain extends Application {
             } else {
                 pnOrder.update(currentOrder);
             }
-
             updateViews();
         });
         pnMenu.getBtnDelete().setOnAction((e) -> {
@@ -169,37 +197,6 @@ public class OrderProjectFXMain extends Application {
             } catch (IOException ex) {
                 System.err.println("Save error");
             }
-        });
-
-        // Menu Options for adding a new Order
-        pnAddMenu.getBtnAdd().setOnAction((e) -> {
-            boolean completedForm = true;
-            if (pnOrder.getTxtOrder().getText().isEmpty()) {
-                completedForm = false;
-                pnOrder.getTxtOrder().requestFocus();
-            } else if (pnOrder.getTxtCustomer().getText().isEmpty()) {
-                completedForm = false;
-                pnOrder.getTxtCustomer().requestFocus();
-            } else if (pnOrder.getTxtProduct().getText().isEmpty()) {
-                completedForm = false;
-                pnOrder.getTxtProduct().requestFocus();
-            } else if (pnOrder.getTxtShipping().getText().isEmpty()) {
-                completedForm = false;
-                pnOrder.getTxtShipping().requestFocus();
-            }
-            if (!completedForm) {
-                dlgOrderEmpty.show();
-            } else {
-                try {
-                    orders.add(pnOrder.generateOrder());
-                } catch (Exception ex) {
-                    System.err.println(ex);
-                }
-                newOrderView(false);
-            }
-        });
-        pnAddMenu.getBtnCancel().setOnAction((e) -> {
-            newOrderView(false);
         });
 
         Scene scene = new Scene(pane, 400, 300);
@@ -227,7 +224,6 @@ public class OrderProjectFXMain extends Application {
 
     private void paneSetup() {
         pnMenu = new MenuPane();
-        pnAddMenu = new AddMenuPane();
         pnLeft = new LeftPane(orders, currentOrder);
         pnOrder = new OrderPane(orders, currentOrder);
         pnRight = new RightPane(orders, currentOrder);
@@ -262,13 +258,13 @@ public class OrderProjectFXMain extends Application {
     private void newOrderView(boolean on) {
         if (on) {
             pnOrder.addOrderView();
-            pane.setBottom(pnAddMenu);
+            pnMenu.addOrderView();
             pnLeft.hide();
             pnRight.hide();
             pnOrder.getTxtOrder().requestFocus();
         } else {
             pnOrder.orderView();
-            pane.setBottom(pnMenu);
+            pnMenu.orderView();
             pnLeft.show();
             pnRight.show();
         }
