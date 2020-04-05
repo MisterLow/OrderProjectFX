@@ -7,7 +7,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 /**
- * Alexander Low 991266865 Project 2020/04/04
+ * Alexander Low
+ * 991266865
+ * Project
+ * 2020/04/04
  */
 public class AddOrderPane extends GridPane {
 
@@ -85,7 +88,7 @@ public class AddOrderPane extends GridPane {
         }
 
         Order order = new Order(Integer.parseInt(getTxtOrder().getText()));
-        order.setOrderID(Integer.parseInt(getTxtCustomer().getText()));
+        order.setCustomerID(Integer.parseInt(getTxtCustomer().getText()));
         order.setProduct(getTxtProduct().getText());
         order.setShipping(getTxtShipping().getText());
 
