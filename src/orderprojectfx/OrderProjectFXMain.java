@@ -4,9 +4,12 @@ import content.Order;
 import data.OrderFile;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -38,10 +41,13 @@ public class OrderProjectFXMain extends Application {
             System.err.println(ex);
         }
         paneSetup();
+
         Alert dlgInputMismatch = new Alert(Alert.AlertType.ERROR);
+        dlgInputMismatch.setHeaderText("Input Error");
         dlgInputMismatch.setContentText("Numbers only");
 
         Alert dlgEmpty = new Alert(Alert.AlertType.ERROR);
+        dlgEmpty.setHeaderText("Input Error");
         dlgEmpty.setContentText("Search cannot be blank");
 
         // Navigation
@@ -116,8 +122,12 @@ public class OrderProjectFXMain extends Application {
             updateViews();
         });
         menu.getBtnDelete().setOnAction((e) -> {
-            orders.remove(currentOrder);
-            updateViews();
+            Alert dlgConfirmation = new Alert(AlertType.CONFIRMATION);
+            Optional<ButtonType> result = dlgConfirmation.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                orders.remove(currentOrder);
+                updateViews();
+            }
         });
         menu.getBtnSave().setOnAction((e) -> {
             try {
@@ -175,6 +185,11 @@ public class OrderProjectFXMain extends Application {
      * Update all views that can change
      */
     private void updateViews() {
+        if (currentOrder > orders.size() - 1) {
+            currentOrder--;
+        } else if (currentOrder < 0) {
+            currentOrder++;
+        }
         left.update(currentOrder);
         order.update(currentOrder);
         right.update(currentOrder);

@@ -33,7 +33,7 @@ public class OrderPane extends GridPane {
         add(lblCustomer, 0, 1);
         add(lblProduct, 0, 2);
         add(lblShipping, 0, 3);
-        
+
         add(txtOrder, 1, 0);
         txtOrder.setEditable(false);
         add(txtCustomer, 1, 1);
@@ -44,14 +44,14 @@ public class OrderPane extends GridPane {
         setAlignment(Pos.CENTER);
         update(currentOrder);
     }
-    
+
     public void add() {
         //getTxtOrder().setText();
         getTxtCustomer().setText(Integer.toString(orders.get(currentOrder).getCustomerID()));
         getTxtProduct().setText(orders.get(currentOrder).getProduct());
         getTxtShipping().setText(orders.get(currentOrder).getShipping());
     }
-    
+
     public void update(int currentOrder) {
         this.currentOrder = currentOrder;
         getTxtOrder().setNum(orders.get(currentOrder).getOrderID());

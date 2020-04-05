@@ -1,13 +1,13 @@
 package orderprojectfx;
 
-
 import javafx.scene.control.TextField;
 
 /**
  *
  * @author Alexander
  */
-public class NumField extends TextField{
+public class NumField extends TextField {
+
     private int num;
 
     /**
