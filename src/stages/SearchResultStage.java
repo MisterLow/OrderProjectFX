@@ -7,8 +7,10 @@ import javafx.stage.Stage;
 import panes.ResultPane;
 
 /**
- *
- * @author Alexander
+ * Alexander Low
+ * 991266865
+ * Project
+ * 2020/04/04
  */
 public class SearchResultStage extends Stage {
 

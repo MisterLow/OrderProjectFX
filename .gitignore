@@ -9,6 +9,7 @@ build/
 nbbuild/
 dist/
 nbdist/
+pdfs/
 .nb-gradle/
 
 # End of https://www.gitignore.io/api/netbeans
