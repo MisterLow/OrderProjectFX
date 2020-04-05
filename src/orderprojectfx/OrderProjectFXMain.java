@@ -44,6 +44,7 @@ public class OrderProjectFXMain extends Application {
         }
         paneSetup();
 
+        // Create warnings
         Alert dlgInputMismatch = new Alert(Alert.AlertType.ERROR);
         dlgInputMismatch.setHeaderText("Input Error");
         dlgInputMismatch.setContentText("Numbers only");
@@ -55,6 +56,11 @@ public class OrderProjectFXMain extends Application {
         Alert dlgOrderEmpty = new Alert(Alert.AlertType.ERROR);
         dlgOrderEmpty.setHeaderText("Input Error");
         dlgOrderEmpty.setContentText("Order fields cannot be blank");
+
+        if (orders.isEmpty()) {
+            noOrderView();
+            updateViews();
+        }
 
         // Navigation
         pnLeft.getBtnFirst().setOnAction((e) -> {
@@ -134,6 +140,7 @@ public class OrderProjectFXMain extends Application {
         pnMenu.getBtnAdd().setOnAction((e) -> {
             if (!pnMenu.isAddView()) {
                 newOrderView(true);
+                updateViews();
             } else {
                 boolean completedForm = true;
                 if (pnOrder.getTxtOrder().getText().isEmpty()) {
@@ -158,6 +165,7 @@ public class OrderProjectFXMain extends Application {
                         System.err.println(ex);
                     }
                     newOrderView(false);
+                    updateViews();
                 }
             }
         });
@@ -188,8 +196,12 @@ public class OrderProjectFXMain extends Application {
             Optional<ButtonType> result = dlgConfirmation.showAndWait();
             if (result.get() == ButtonType.OK) {
                 orders.remove(currentOrder);
-                updateViews();
             }
+            // Force the user to add an order if there are none
+            if (orders.isEmpty()) {
+                noOrderView();
+            }
+            updateViews();
         });
         pnMenu.getBtnSave().setOnAction((e) -> {
             try {
@@ -268,7 +280,14 @@ public class OrderProjectFXMain extends Application {
             pnLeft.show();
             pnRight.show();
         }
-        updateViews();
+    }
+
+    /**
+     * Don't let the user go through the orders if there are none
+     */
+    private void noOrderView() {
+        newOrderView(true);
+        pnMenu.getBtnCancel().setVisible(false);
     }
 
     /**

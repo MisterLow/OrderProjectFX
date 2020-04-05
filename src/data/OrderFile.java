@@ -3,6 +3,7 @@ package data;
 import content.Order;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -21,12 +22,17 @@ public class OrderFile {
 
     public static ArrayList<Order> loadOrders() throws FileNotFoundException, IOException {
         ArrayList<Order> orders = new ArrayList<>();
-        FileReader fr = new FileReader("Order.dat");
+        File file = new File("Order.dat");
+        if (!file.exists()) {
+            file.createNewFile();
+            return orders;
+        }
+        FileReader fr = new FileReader(file);
         BufferedReader br = new BufferedReader(fr);
         String line = br.readLine();
-        //if (line == null) {
-        //    throw new IOException("File Cannot be Empty");
-        //}
+        if (line == null) {
+            return orders;
+        }
         while (line != null) {
             StringTokenizer st = new StringTokenizer(line, ",");
             int orderNum = Integer.parseInt(st.nextToken().trim().substring(1));

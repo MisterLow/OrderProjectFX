@@ -44,10 +44,9 @@ public class OrderPane extends GridPane {
         add(txtShipping, 1, 3);
 
         setAlignment(Pos.CENTER);
-        update(currentOrder);
     }
 
-   public void addOrderView() {
+    public void addOrderView() {
         addView = true;
         txtOrder.setEditable(addView);
         txtCustomer.setEditable(addView);
@@ -58,7 +57,6 @@ public class OrderPane extends GridPane {
     }
 
     public void orderView() {
-        update(currentOrder);
         addView = false;
         txtOrder.setEditable(addView);
         txtCustomer.setEditable(addView);

@@ -25,7 +25,6 @@ public class LeftPane extends GridPane {
         add(btnPrev, 0, 0);
         add(btnFirst, 0, 1);
         setAlignment(Pos.CENTER);
-        update(currentOrder);
     }
 
     /**
