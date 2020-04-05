@@ -31,7 +31,6 @@ public class OrderProjectFXMain extends Application {
     private LeftPane pnLeft;
     private RightPane pnRight;
     private OrderPane pnOrder;
-    private AddOrderPane pnAddOrder;
     private MenuPane pnMenu;
     private AddMenuPane pnAddMenu;
     private BorderPane pane;
@@ -148,7 +147,7 @@ public class OrderProjectFXMain extends Application {
                 orders.get(currentOrder).setShipping(
                         pnOrder.getTxtShipping().getText());
             } else {
-                pnOrder.reset();
+                pnOrder.update(currentOrder);
             }
 
             updateViews();
@@ -175,24 +174,24 @@ public class OrderProjectFXMain extends Application {
         // Menu Options for adding a new Order
         pnAddMenu.getBtnAdd().setOnAction((e) -> {
             boolean completedForm = true;
-            if (pnAddOrder.getTxtOrder().getText().isEmpty()) {
+            if (pnOrder.getTxtOrder().getText().isEmpty()) {
                 completedForm = false;
-                pnAddOrder.getTxtOrder().requestFocus();
-            } else if (pnAddOrder.getTxtCustomer().getText().isEmpty()) {
+                pnOrder.getTxtOrder().requestFocus();
+            } else if (pnOrder.getTxtCustomer().getText().isEmpty()) {
                 completedForm = false;
-                pnAddOrder.getTxtCustomer().requestFocus();
-            } else if (pnAddOrder.getTxtProduct().getText().isEmpty()) {
+                pnOrder.getTxtCustomer().requestFocus();
+            } else if (pnOrder.getTxtProduct().getText().isEmpty()) {
                 completedForm = false;
-                pnAddOrder.getTxtProduct().requestFocus();
-            } else if (pnAddOrder.getTxtShipping().getText().isEmpty()) {
+                pnOrder.getTxtProduct().requestFocus();
+            } else if (pnOrder.getTxtShipping().getText().isEmpty()) {
                 completedForm = false;
-                pnAddOrder.getTxtShipping().requestFocus();
+                pnOrder.getTxtShipping().requestFocus();
             }
             if (!completedForm) {
                 dlgOrderEmpty.show();
             } else {
                 try {
-                    orders.add(pnAddOrder.generateOrder());
+                    orders.add(pnOrder.generateOrder());
                 } catch (Exception ex) {
                     System.err.println(ex);
                 }
@@ -231,7 +230,6 @@ public class OrderProjectFXMain extends Application {
         pnAddMenu = new AddMenuPane();
         pnLeft = new LeftPane(orders, currentOrder);
         pnOrder = new OrderPane(orders, currentOrder);
-        pnAddOrder = new AddOrderPane();
         pnRight = new RightPane(orders, currentOrder);
         pane = new BorderPane();
         pnSearch = new SearchPane();
@@ -263,14 +261,13 @@ public class OrderProjectFXMain extends Application {
      */
     private void newOrderView(boolean on) {
         if (on) {
-            pane.setCenter(pnAddOrder);
+            pnOrder.addOrderView();
             pane.setBottom(pnAddMenu);
             pnLeft.hide();
             pnRight.hide();
-            pnAddOrder.getTxtOrder().requestFocus();
+            pnOrder.getTxtOrder().requestFocus();
         } else {
-            pnAddOrder.reset();
-            pane.setCenter(pnOrder);
+            pnOrder.orderView();
             pane.setBottom(pnMenu);
             pnLeft.show();
             pnRight.show();

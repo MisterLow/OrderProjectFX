@@ -27,6 +27,7 @@ public class OrderPane extends GridPane {
 
     private ArrayList<Order> orders;
     private int currentOrder;
+    private boolean addView = false;
 
     public OrderPane(ArrayList<Order> orders, int currentOrder) {
         this.orders = orders;
@@ -46,19 +47,31 @@ public class OrderPane extends GridPane {
         update(currentOrder);
     }
 
-    public void reset() {
-        getTxtOrder().setText(Integer.toString(orders.get(currentOrder).getOrderID()));
-        getTxtCustomer().setText(Integer.toString(orders.get(currentOrder).getCustomerID()));
-        getTxtProduct().setText(orders.get(currentOrder).getProduct());
-        getTxtShipping().setText(orders.get(currentOrder).getShipping());
+   public void addOrderView() {
+        addView = true;
+        txtOrder.setEditable(addView);
+        txtCustomer.setEditable(addView);
+        getTxtOrder().setText("");
+        getTxtCustomer().setText("");
+        getTxtProduct().setText("");
+        getTxtShipping().setText("");
+    }
+
+    public void orderView() {
+        update(currentOrder);
+        addView = false;
+        txtOrder.setEditable(addView);
+        txtCustomer.setEditable(addView);
     }
 
     public void update(int currentOrder) {
         this.currentOrder = currentOrder;
-        getTxtOrder().setText(Integer.toString(orders.get(currentOrder).getOrderID()));
-        getTxtCustomer().setText(Integer.toString(orders.get(currentOrder).getCustomerID()));
-        getTxtProduct().setText(orders.get(currentOrder).getProduct());
-        getTxtShipping().setText(orders.get(currentOrder).getShipping());
+        if (!addView) {
+            getTxtOrder().setText(Integer.toString(orders.get(currentOrder).getOrderID()));
+            getTxtCustomer().setText(Integer.toString(orders.get(currentOrder).getCustomerID()));
+            getTxtProduct().setText(orders.get(currentOrder).getProduct());
+            getTxtShipping().setText(orders.get(currentOrder).getShipping());
+        }
     }
 
     /**
@@ -87,5 +100,27 @@ public class OrderPane extends GridPane {
      */
     public TextField getTxtShipping() {
         return txtShipping;
+    }
+
+    public Order generateOrder() throws Exception {
+        if (getTxtOrder().getText().isEmpty()) {
+            throw new Exception("Order cannot be empty");
+        }
+        if (getTxtCustomer().getText().isEmpty()) {
+            throw new Exception("Customer cannot be empty");
+        }
+        if (getTxtProduct().getText().isEmpty()) {
+            throw new Exception("Product cannot be empty");
+        }
+        if (getTxtShipping().getText().isEmpty()) {
+            throw new Exception("Shipping cannot be empty");
+        }
+
+        Order order = new Order(Integer.parseInt(getTxtOrder().getText()));
+        order.setCustomerID(Integer.parseInt(getTxtCustomer().getText()));
+        order.setProduct(getTxtProduct().getText());
+        order.setShipping(getTxtShipping().getText());
+
+        return order;
     }
 }
