@@ -12,7 +12,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import panes.*;
+import panes.LeftPane;
+import panes.MenuPane;
+import panes.OrderPane;
+import panes.RightPane;
+import panes.SearchPane;
 import stages.SearchResultStage;
 
 /**
@@ -91,13 +95,13 @@ public class OrderProjectFXMain extends Application {
             } else if (e.getCode().toString().equals("ENTER")) {
                 dlgEmpty.setContentText("Search cannot be blank");
                 dlgEmpty.show();
-            } else if (!(KeyCodeCheck.isNumeric(e.getCode()) || (KeyCodeCheck.acceptableChar(e.getCode())))) {
+            } else if (!(e.getCode().isDigitKey() || (KeyCodeCheck.acceptableChar(e.getCode())))) {
                 dlgInputMismatch.show();
             }
         });
         pnSearch.getTxtProduct().setOnKeyPressed(e -> {
             if (e.getCode().toString().equals("ENTER")
-                    && !(pnSearch.getTxtCustomer().getText().isEmpty())) {
+                    && !(pnSearch.getTxtProduct ().getText().isEmpty())) {
                 SearchResultStage searchStage = new SearchResultStage(
                         orders, pnSearch.getTxtProduct().getText());
                 searchStage.show();
@@ -124,7 +128,7 @@ public class OrderProjectFXMain extends Application {
 
         // Main
         pnOrder.getTxtOrder().setOnKeyPressed(e -> {
-            if (!(KeyCodeCheck.isNumeric(e.getCode())
+            if (!(e.getCode().isDigitKey()
                     || (KeyCodeCheck.acceptableChar(e.getCode())))
                     && (pnOrder.getTxtCustomer().isEditable())) {
                 dlgInputMismatch.show();
@@ -132,7 +136,7 @@ public class OrderProjectFXMain extends Application {
         });
 
         pnOrder.getTxtCustomer().setOnKeyPressed(e -> {
-            if (!(KeyCodeCheck.isNumeric(e.getCode())
+            if (!(e.getCode().isDigitKey()
                     || (KeyCodeCheck.acceptableChar(e.getCode())))
                     && (pnOrder.getTxtCustomer().isEditable())) {
                 System.out.println("dddd");

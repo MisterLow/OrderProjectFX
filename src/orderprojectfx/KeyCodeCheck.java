@@ -11,17 +11,6 @@ import javafx.scene.input.KeyCode;
 public class KeyCodeCheck {
 
     /**
-     * Checks if a code is a number
-     *
-     * @param code
-     * @return true if the Value is a number or back space character
-     */
-    public static boolean isNumeric(KeyCode code) {
-        return (code.toString().startsWith("DIGIT"))
-                || (code.toString().startsWith("NUMPAD"));
-    }
-
-    /**
      * Checks if a code is an allowed character
      *
      * @param code
